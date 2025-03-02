@@ -4,9 +4,9 @@ import { validateWithAI } from '../utils/ai';
 import { normalizeInput } from '../utils/validation';
 import ImagePuzzle from './ImagePuzzle';
 import VoicePuzzle from './VoicePuzzle';
-import PatternPuzzle from './PatternPuzzle';
 import TimingPuzzle from './TimingPuzzle';
 import CreativeEncounter from './CreativeEncounter';
+import PatternPuzzle from './PatternPuzzle';
 
 interface PuzzleProps {
   puzzle: Puzzle;
@@ -60,7 +60,7 @@ export default function PuzzleComponent({ puzzle, onSolved, onUseHint, hintsUsed
           setDebugInfo('Validating with AI...');
           isCorrect = await validateWithAI(submittedAnswer, puzzle.answer, puzzle.aiConfig);
           setDebugInfo('AI validation complete');
-        } catch (error: unknown) {
+        } catch (error) {
           console.error("AI validation error:", error);
           setDebugInfo(`AI Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
           
@@ -81,8 +81,10 @@ export default function PuzzleComponent({ puzzle, onSolved, onUseHint, hintsUsed
       console.log("Answer is correct:", isCorrect);
       
       if (isCorrect) {
+        console.log("Correct answer submitted for puzzle:", puzzle.id);
         setDebugInfo('Correct answer! Calling onSolved...');
         setTimeout(() => {
+          console.log("Calling onSolved for puzzle:", puzzle.id);
           onSolved(puzzle);
         }, 100); // Small delay to ensure UI updates before transition
       } else {
@@ -115,9 +117,9 @@ export default function PuzzleComponent({ puzzle, onSolved, onUseHint, hintsUsed
       case 'text': return 'Text Analysis';
       case 'image': return 'Visual Recognition';
       case 'voice': return 'Audio Verification';
-      case 'pattern': return 'Pattern Recognition';
       case 'timing': return 'Precision Timing';
       case 'creative': return 'Survival Strategy';
+      case 'pattern': return 'Pattern Matching';
       default: return 'Unknown Type';
     }
   };
@@ -167,9 +169,8 @@ export default function PuzzleComponent({ puzzle, onSolved, onUseHint, hintsUsed
           />
           <div className="action-buttons">
             <button 
-              type="button" // Changed from submit to button
+              type="button" 
               onClick={handleManualSubmit}
-              disabled={isChecking || !answer.trim()}
               className="submit-button"
             >
               {isChecking ? 'Processing...' : 'Submit'}
@@ -207,14 +208,6 @@ export default function PuzzleComponent({ puzzle, onSolved, onUseHint, hintsUsed
         />
       )}
       
-      {puzzle.type === 'pattern' && (
-        <PatternPuzzle
-          onSubmit={handleAnswerSubmit} 
-          isIncorrect={isIncorrect}
-          isProcessing={isChecking}
-        />
-      )}
-
       {puzzle.type === 'timing' && (
         <TimingPuzzle
           onSubmit={handleAnswerSubmit} 
@@ -232,7 +225,15 @@ export default function PuzzleComponent({ puzzle, onSolved, onUseHint, hintsUsed
         />
       )}
 
-      {puzzle.type !== 'text' && puzzle.type !== 'pattern' && puzzle.hints.length > hintsUsed && (
+      {puzzle.type === 'pattern' && (
+        <PatternPuzzle 
+          onSubmit={handleAnswerSubmit} 
+          isIncorrect={isIncorrect} 
+          isProcessing={isChecking} 
+        />
+      )}
+
+      {puzzle.type !== 'text' && puzzle.hints.length > hintsUsed && (
         <button 
           type="button" 
           onClick={(e) => {

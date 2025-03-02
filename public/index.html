@@ -95,7 +95,6 @@
             button.addEventListener(
               "click",
               function (e) {
-                e.stopPropagation();
                 console.log("Button clicked:", this.textContent.trim());
               },
               { capture: true }

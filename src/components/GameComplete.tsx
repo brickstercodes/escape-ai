@@ -10,9 +10,10 @@ export default function GameComplete({ onRestart }: GameCompleteProps) {
     // Force garbage collection and cleanup
     const cleanup = () => {
       // Clear any potential browser animation frames
-      const highestId = window.setTimeout(() => {}, 0);
-      for (let i = highestId; i >= 0; i--) {
-        window.clearTimeout(i);
+      let highestId = window.requestAnimationFrame(() => {});
+      while (highestId > 0) {
+        window.cancelAnimationFrame(highestId);
+        highestId--;
       }
     };
     
@@ -57,7 +58,7 @@ export default function GameComplete({ onRestart }: GameCompleteProps) {
           </div>
           <div className="stat-item">
             <span className="stat-label">Survivor</span>
-            <span className="stat-value">Josh Chen</span>
+            <span className="stat-value">Josh Neeq</span>
           </div>
           <div className="stat-item">
             <span className="stat-label">Threat Level</span>

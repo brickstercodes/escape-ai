@@ -69,32 +69,37 @@ export default function Game() {
     
     console.log('Advancing to next level. Current Level Index:', currentLevelIndex);
     
-    if (currentLevelIndex < levels.length - 1) {
+    if (currentLevelIndex < importedLevels.length - 1) {
       setCurrentLevelIndex(prevIndex => {
         const newIndex = prevIndex + 1;
+        console.log("New level index:", newIndex);
         
         if (!isMounted.current) return prevIndex;
         
         setGameState(prev => ({
           ...prev,
-          currentLevelId: levels[newIndex].id,
-          currentPuzzleIndex: 0
+          currentLevelId: importedLevels[newIndex].id,
+          currentPuzzleIndex: 0,
+          completedPuzzles: []
         }));
         
         // Show story intro for new level if available
-        if (levels[newIndex].storyIntro) {
+        if (importedLevels[newIndex].storyIntro) {
+          console.log("Showing intro for level:", newIndex);
           setScreenWithTimeout('story-intro');
         } else {
+          console.log("No intro, continuing to play");
           setScreenWithTimeout('playing');
         }
         
         return newIndex;
       });
     } else {
+      console.log("Game complete");
       // Game complete - add a longer delay to ensure clean transition
       setScreenWithTimeout('complete', 300);
     }
-  }, [currentLevelIndex, setScreenWithTimeout]);
+  }, [currentLevelIndex, importedLevels, setScreenWithTimeout]);
 
   const handlePuzzleSolved = useCallback((puzzle: Puzzle) => {
     if (!isMounted.current) return;
@@ -105,12 +110,9 @@ export default function Game() {
       return;
     }
 
+    console.log("Puzzle solved:", puzzle.id, "Current level:", currentLevelIndex);
+
     setGameState(prev => {
-      // Check if puzzle was already marked as complete to prevent double transitions
-      if (prev.completedPuzzles.includes(puzzle.id)) {
-        return prev;
-      }
-      
       const newState = {
         ...prev,
         completedPuzzles: [...prev.completedPuzzles, puzzle.id],
@@ -119,11 +121,14 @@ export default function Game() {
       
       // Check if this was the last puzzle in the level
       if (currentLevel && newState.currentPuzzleIndex >= currentLevel.puzzles.length) {
+        console.log("Last puzzle in level completed");
+        
         // Show story outro if available
         if (currentLevel.storyOutro) {
+          console.log("Showing level outro");
           setScreenWithTimeout('story-outro');
         } else {
-          setScreenWithTimeout('playing');
+          console.log("No outro, advancing to next level");
           // Add a short delay before advancing to ensure state update completes
           setTimeout(() => {
             if (isMounted.current) {
@@ -131,11 +136,22 @@ export default function Game() {
             }
           }, 200);
         }
+      } else {
+        console.log("More puzzles remaining in current level");
       }
+      
+      console.log("Current completed puzzles:", prev.completedPuzzles);
+      console.log("Completed puzzles before update:", prev.completedPuzzles);
+      console.log("Current puzzle index before update:", prev.currentPuzzleIndex);
+      console.log("Completed puzzles after update:", newState.completedPuzzles);
+      console.log("Current puzzle index after update:", newState.currentPuzzleIndex);
       
       return newState;
     });
-  }, [currentLevel, advanceToNextLevel, setScreenWithTimeout]);
+
+    // Call advanceToNextLevel immediately after solving a puzzle
+    advanceToNextLevel();
+  }, [currentLevel, advanceToNextLevel, setScreenWithTimeout, currentLevelIndex]);
 
   const handleHintRequest = useCallback((puzzleId: string) => {
     if (!isMounted.current) return;
@@ -177,7 +193,12 @@ export default function Game() {
 
   const restartGame = useCallback(() => {
     // Clean up any potential lingering animations or timeouts
-    const highestId = window.setTimeout(() => {}, 0);
+    const highestId = window.setTimeout(() => {
+        // This function is intentionally left empty
+    }, 0);
+    for (let i = highestId; i >= 0; i--) {
+      window.clearTimeout(i);
+    }
     for (let i = highestId; i >= 0; i--) {
       window.clearTimeout(i);
     }
@@ -189,6 +210,17 @@ export default function Game() {
       setCurrentScreen('intro');
     }
   }, []);
+
+  useEffect(() => {
+    if (currentScreen === 'story-outro') {
+      const timer = setTimeout(() => {
+        advanceToNextLevel();
+      }, 15000); // Force advance after 15 seconds
+
+      // Cleanup the timer on component unmount
+      return () => clearTimeout(timer);
+    }
+  }, [currentScreen, advanceToNextLevel]);
 
   // Render appropriate screen based on game state
   if (currentScreen === 'intro') {
@@ -255,6 +287,28 @@ export default function Game() {
         onUseHint={() => handleHintRequest(currentPuzzle.id)}
         hintsUsed={gameState.hintsUsed[currentPuzzle.id] || 0}
       />
+
+      <button 
+        onClick={startGame}
+        className="start-button"
+      >
+        Start Game
+      </button>
+
+      {currentScreen === 'story-outro' && currentLevel?.storyOutro && (
+        <div className="story-outro-timeout">
+          {/* Add a timeout to force the game to advance after 15 seconds */}
+        </div>
+      )}
+
+      <button 
+        onClick={advanceToNextLevel} 
+        className="force-next-level-button" 
+        style={{ position: 'absolute', top: '10px', right: '10px' }}
+      >
+        Force Next Level
+      </button>
+
     </div>
   );
 }

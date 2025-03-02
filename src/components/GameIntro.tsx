@@ -16,7 +16,7 @@ export default function GameIntro({ onStart }: GameIntroProps) {
         <div className="alert-message">
           <div className="alert-header">PRIORITY ALPHA</div>
           <p>
-            <strong>URGENT TRANSMISSION:</strong> Explorer Josh Chen has lost contact with mission control 
+            <strong>URGENT TRANSMISSION:</strong> Explorer Josh Neeq has lost contact with mission control 
             after boarding an abandoned spacecraft on the edge of the Kepler system.
           </p>
           <p>

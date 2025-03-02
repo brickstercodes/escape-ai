@@ -28,6 +28,13 @@ const StoryPanel: React.FC<StoryPanelProps> = ({
   return (
     <div className="story-panel">
       <h1>Story Panel</h1>
+      <button 
+        onClick={() => onLevelChange(currentLevel + 1)}
+        className="force-next-level-button" 
+        style={{ position: 'absolute', top: '10px', right: '10px' }}
+      >
+        Force Next Level
+      </button>
       <p>{isIntro ? text : stories[currentLevel]}</p>
       <div className="navigation">
         <button 

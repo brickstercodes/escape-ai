@@ -84,7 +84,7 @@ const sequencePuzzles = [
     answer: 'Saturn',
     hints: [
       'These are celestial bodies in our solar system',
-      'They are listed in order of distance from the Sun',
+      'They are list`ed in order of distance from the Sun',
       'The next planet after Jupiter moving outward'
     ]
   },
@@ -205,7 +205,7 @@ export const levels: Level[] = [
     storyOutro: 'The escape pod detaches from the derelict ship with a violent jolt, just as the bay door gives way. Josh catches a final glimpse of a nightmarish form lunging toward the viewport before the thrusters engage, propelling him safely into space. As the abandoned ship recedes in the distance, Josh activates the emergency beacon. He\'s survived, but the questions remain: What happened to the crew? What were those creatures? And why was he sent to investigate without being told the true nature of his mission?',
     puzzles: [
       {
-        id: 'puzzle-final',
+        id: 'puzzle-penultimate',
         type: 'text',
         ...getRandomItem(sequencePuzzles),
         validateWith: 'ai',
@@ -225,15 +225,22 @@ export const levels: Level[] = [
     storyOutro: 'As Josh completes the pattern, the escape pod\'s engines roar to life. "Launch sequence initiated," announces the ship\'s computer in a calm voice that contrasts sharply with Josh\'s racing heartbeat. The pod\'s hatch seals with a pneumatic hiss, and countdown numbers flash on screen. Through the viewport, Josh can see the creature finally break through the door, its alien form more terrifying than anything he could have imagined. But it\'s too late for the creature - the pod blasts free from the derelict ship, thrusters propelling Josh to safety as the abandoned vessel grows smaller in the distance.',
     puzzles: [
       {
-        id: 'puzzle-pattern',
+        id: 'pattern-puzzle',
         type: 'pattern',
-        question: 'Complete the launch pattern sequence to activate the escape pod\'s engines.',
-        answer: 'SATURN', // This is just a placeholder, the actual input comes from the game
-        hints: [
-          'The system is testing your ability to recognize patterns',
-          'Pay attention to the final symbol in the sequence',
-          'Match the pattern based on symbol type, not color'
-        ]
+        question: 'Complete the security pattern to bypass the firewall.',
+        answer: 'pattern', // Placeholder answer, actual evaluation will be done in the mini-game
+        hints: ['Follow the sequence of symbols carefully.']
+      },
+      {
+        id: 'puzzle-penultimate',
+        type: 'text',
+        ...getRandomItem(sequencePuzzles),
+        validateWith: 'ai',
+        aiConfig: {
+          provider: 'gemini',
+          model: 'gemini-2.0-flash',
+          temperature: 0.3
+        }
       }
     ]
   },
@@ -243,7 +250,7 @@ export const levels: Level[] = [
     id: 'spaceship-escape-confrontation',
     name: 'Final Confrontation',
     description: 'The creature has caught up with Josh. He must fight for his life using whatever he can find.',
-    storyIntro: 'Josh\'s heart pounds as he races through the dimly lit corridor. The escape pod is just ahead, but a bone-chilling shriek pierces the recycled air. The creature has finally caught up. Josh ducks into a maintenance alcove, the door sliding shut behind him, but it won\'t hold for long. The metal door begins to dent inward, acid saliva dripping through the seams and sizzling as it hits the floor. There\'s no way out except to face this nightmare. Josh frantically scans the cramped space for anything he could use as a weapon or distraction. With trembling hands and sweat clouding his vision, he must think fast as the creature begins tearing through the door. He has seconds to act.',
+    
     storyOutro: 'Josh collapses against the wall, breathing heavily, his hands still trembling. The creature lies motionless on the floor, dark fluid pooling beneath its twisted form. The improvised strategy worked. Josh cautiously steps over the creature\'s body, making his way toward the escape pod\'s entry hatch. He can\'t help but glance back at the thing that nearly killed him. In death, its face looks almost... human. Josh shudders and turns away, activating the escape pod\'s launch sequence. As the hatch seals and the engines ignite, he allows himself to believe, for the first time, that he might actually survive this nightmare.',
     puzzles: [
       {
@@ -277,6 +284,39 @@ export const levels: Level[] = [
             'Medical kit with sedatives'
           ],
           scenario: 'The maintenance alcove is small and cramped. The creature—a grotesque hybrid of insectoid and humanoid features—is tearing through the reinforced door. Its multiple limbs work with terrible efficiency, and you can hear its raspy, hungry breathing. Each impact causes the lights to flicker, casting twisted shadows across the walls. Josh feels his pulse racing and a cold sweat forming on his brow. There\'s no way out except through that door, and the creature will be through in less than a minute.',
+          healthPoints: 100
+        }
+      },
+      {
+        id: 'creative-puzzle',
+        type: 'creative',
+        question: 'Help Josh formulate a survival strategy using the items available in the maintenance alcove.',
+        answer: 'survival', // Placeholder answer
+        hints: [
+          'Think about how to distract the creature',
+          'Combine items for maximum effect'
+        ],
+        validateWith: 'ai',
+        aiConfig: {
+          provider: 'gemini',
+          model: 'gemini-2.0-flash',
+          temperature: 0.7
+        },
+        creativeConfig: {
+          availableItems: [
+            'Broken pipe wrench',
+            'Flickering emergency light',
+            'Pressurized oxygen tank',
+            'Frayed electrical cables',
+            'Chemical coolant canister',
+            'Hydraulic door piston',
+            'Maintenance terminal (powered down)',
+            'Fire suppression system (partially functional)',
+            'Rusty metal shelf',
+            'Duct tape',
+            'Medical kit with sedatives'
+          ],
+          scenario: 'The maintenance alcove is small and cramped. The creature is tearing through the reinforced door. Josh must think fast as the creature begins tearing through the door. He has seconds to act.',
           healthPoints: 100
         }
       }
