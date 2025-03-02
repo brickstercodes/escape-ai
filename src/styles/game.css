@@ -1,0 +1,394 @@
+/* Base Styles */
+body {
+  background-color: #000;
+  color: #e0e0e0;
+  font-family: "Courier New", monospace;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* App Layout & Ambient Effects */
+.app {
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.ambient-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.ambient-light {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  filter: blur(150px);
+  opacity: 0.15;
+}
+
+.top-left {
+  top: -200px;
+  left: -200px;
+  background: #0070f3;
+  animation: pulse-slow 15s infinite alternate;
+}
+
+.top-right {
+  top: -150px;
+  right: -150px;
+  background: #5c2a9d;
+  animation: pulse-slow 20s infinite alternate-reverse;
+}
+
+/* Header & Footer */
+.app-header {
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+}
+
+.header-content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.status-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.status-indicator.online {
+  background: #27c93f;
+  box-shadow: 0 0 8px #27c93f;
+  animation: blink-slow 3s infinite;
+}
+
+.status-text {
+  font-size: 14px;
+  color: #bbb;
+}
+
+.app-content {
+  min-height: calc(100vh - 120px);
+}
+
+.app-footer {
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  color: #666;
+  font-size: 12px;
+}
+
+/* Container and Typography */
+.game-container {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 30px 20px;
+  background-color: #111;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 128, 255, 0.2);
+  border: 1px solid #222;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Courier New", monospace;
+  color: #4fc3f7;
+  margin-top: 0;
+}
+
+h1 {
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+}
+
+/* Form Elements */
+input[type="text"],
+input[type="file"] {
+  background: #222;
+  border: 1px solid #444;
+  padding: 12px 15px;
+  border-radius: 4px;
+  color: #fff;
+  width: calc(100% - 30px);
+  font-family: "Courier New", monospace;
+  font-size: 16px;
+  margin: 10px 0;
+  transition: all 0.3s;
+}
+
+input[type="text"]:focus {
+  border-color: #4fc3f7;
+  outline: none;
+  box-shadow: 0 0 5px #4fc3f7;
+}
+
+button {
+  margin: 10px;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 4px;
+  background: linear-gradient(45deg, #0070f3, #00a2ff);
+  color: white;
+  cursor: pointer;
+  font-family: "Courier New", monospace;
+  font-size: 16px;
+  transition: all 0.3s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+  background: linear-gradient(45deg, #0063d1, #0090e8);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+button:disabled {
+  background: #333;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Game Components */
+.puzzle {
+  background: #1a1a1a;
+  padding: 25px;
+  border-radius: 8px;
+  margin: 20px 0;
+  border: 1px solid #333;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.hints {
+  background: #2d2d13;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 4px;
+  border-left: 4px solid #b39800;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Status Elements */
+.loading {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 4px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  box-shadow: 0 0 15px rgba(0, 128, 255, 0.5);
+  border: 1px solid #0070f3;
+}
+
+.error {
+  background: rgba(255, 0, 0, 0.2);
+  color: #ff5252;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 4px;
+  border-left: 4px solid #ff5252;
+}
+
+/* Progress Elements */
+.level-progress {
+  background: #1a2035;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 25px;
+  display: inline-block;
+  margin-bottom: 20px;
+  font-size: 14px;
+  border: 1px solid #29347a;
+}
+
+.progress-container {
+  width: 100%;
+  background-color: #1a1a1a;
+  border-radius: 10px;
+  margin: 20px 0;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 8px;
+  background: linear-gradient(90deg, #0070f3, #00a2ff);
+  border-radius: 10px;
+  transition: width 0.5s ease-in-out;
+}
+
+/* Animations */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse-slow {
+  0% {
+    opacity: 0.1;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 0.2;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes blink-slow {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #4fc3f7;
+  }
+}
+
+@keyframes scan {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+@keyframes blink-text {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Add these styles to the end of your existing CSS file */
+
+/* Enhanced button styles for better feedback */
+.submit-button {
+  position: relative;
+  overflow: hidden;
+  min-width: 120px;
+}
+
+.submit-button:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+.submit-button:active:after {
+  animation: ripple 600ms ease-out;
+  opacity: 0;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(30, 30);
+    opacity: 0;
+  }
+}
+
+.puzzle-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Ensure button is properly clickable with a clear hover state */
+button:not(:disabled) {
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+button:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Make sure form elements don't overlap */
+form {
+  position: relative;
+  z-index: 1;
+  margin: 15px 0;
+}

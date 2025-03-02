@@ -1,0 +1,231 @@
+.creative-encounter {
+  font-family: "Courier New", monospace;
+  color: #e0e0e0;
+  background: #0d1117;
+  border-radius: 8px;
+  padding: 25px;
+  border: 1px solid #30363d;
+}
+
+/* Health Status Section */
+.health-status {
+  margin-bottom: 25px;
+}
+
+.health-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #8b949e;
+}
+
+.health-percent {
+  font-weight: bold;
+}
+
+.health-bar-container {
+  height: 8px;
+  background: #161b22;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  border: 1px solid #30363d;
+}
+
+.health-bar {
+  height: 100%;
+  background: #2ea043;
+  border-radius: 4px;
+  transition: width 0.5s ease-out, background 0.5s ease-out;
+}
+
+.attempts-counter {
+  text-align: right;
+  font-size: 12px;
+  color: #8b949e;
+}
+
+/* Scenario Description */
+.encounter-scenario {
+  background: #161b22;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border-left: 4px solid #f85149; /* Red border for danger */
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Items Panel */
+.items-panel {
+  margin-bottom: 20px;
+}
+
+.items-header {
+  background: #161b22;
+  padding: 12px 16px;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  border: 1px solid #30363d;
+  color: #58a6ff;
+  font-weight: bold;
+}
+
+.items-toggle {
+  transition: transform 0.3s ease;
+}
+
+.items-toggle.open {
+  transform: rotate(180deg);
+}
+
+.items-grid {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-top: none;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  border-radius: 0 0 8px 8px;
+}
+
+@media (max-width: 600px) {
+  .items-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.item-chip {
+  background: #1d2535;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid #30363d;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.item-chip:hover {
+  background: #2d3a50;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  border-color: #58a6ff;
+}
+
+/* Strategy Form */
+.strategy-form label {
+  display: block;
+  margin-bottom: 10px;
+  color: #8b949e;
+  font-weight: bold;
+}
+
+.strategy-form textarea {
+  width: calc(100% - 32px);
+  background: #161b22;
+  color: #c9d1d9;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 15px;
+  font-family: "Courier New", monospace;
+  font-size: 16px;
+  resize: vertical;
+  margin-bottom: 15px;
+}
+
+.strategy-form textarea:focus {
+  outline: none;
+  border-color: #58a6ff;
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
+}
+
+.strategy-form textarea.incorrect {
+  border-color: #f85149;
+  animation: shake 0.5s;
+}
+
+.strategy-feedback {
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.strategy-feedback.success {
+  background: rgba(46, 160, 67, 0.2);
+  border: 1px solid #2ea043;
+  color: #7ee787;
+}
+
+.strategy-feedback.danger {
+  background: rgba(248, 81, 73, 0.2);
+  border: 1px solid #f85149;
+  color: #ff7b72;
+}
+
+.send-strategy-btn {
+  background: linear-gradient(135deg, #3d00b7, #6d18ed);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Courier New", monospace;
+  width: 100%;
+}
+
+.send-strategy-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 14px rgba(109, 24, 237, 0.3);
+}
+
+.send-strategy-btn:disabled {
+  background: #1d2535;
+  cursor: not-allowed;
+  color: #8b949e;
+  box-shadow: none;
+}
+
+.game-over-message {
+  margin-top: 25px;
+  padding: 15px;
+  background: rgba(248, 81, 73, 0.2);
+  border-radius: 6px;
+  border: 1px solid #f85149;
+  color: #ff7b72;
+  font-weight: bold;
+  text-align: center;
+  animation: pulse 2s infinite;
+}
+
+/* Animation Keyframes */
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+    <meta name="theme-color" content="#000000" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta
+      name="description"
+      content="Help Josh escape from an abandoned spaceship"
+    />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <title>Escape the Derelict</title>
+    <style>
+      /* Add critical CSS to prevent FOUC and improve button responsiveness */
+      html,
+      body {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+      }
+      button {
+        touch-action: manipulation;
+        cursor: pointer !important;
+        pointer-events: auto !important;
+      }
+      button:disabled {
+        cursor: not-allowed !important;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+
+    <!-- Emergency control panel (hidden by default) -->
+    <div
+      id="emergency-controls"
+      style="
+        display: none;
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 10px;
+        border-radius: 5px;
+        z-index: 9999;
+      "
+    >
+      <button onclick="window.location.reload()">Reload Game</button>
+      <button onclick="localStorage.clear(); window.location.reload()">
+        Reset Game
+      </button>
+      <button
+        onclick="document.querySelectorAll('.continue-button').forEach(b => b.click())"
+      >
+        Force Continue
+      </button>
+    </div>
+
+    <script>
+      // Help ensure buttons are clickable
+      document.addEventListener(
+        "click",
+        function (e) {
+          if (
+            e.target &&
+            e.target.nodeName === "BUTTON" &&
+            !e.target.disabled
+          ) {
+            // Manually trigger click effect if needed
+            e.target.classList.add("clicked");
+            setTimeout(function () {
+              e.target.classList.remove("clicked");
+            }, 200);
+          }
+        },
+        false
+      );
+
+      // Fix potential touch and click issues with buttons
+      document.addEventListener("DOMContentLoaded", function () {
+        // Force all buttons to be clickable
+        const makeButtonsClickable = function () {
+          const buttons = document.querySelectorAll("button:not([disabled])");
+          buttons.forEach(function (button) {
+            button.style.pointerEvents = "auto";
+            button.style.cursor = "pointer";
+            button.style.opacity = "1";
+
+            // Add a click handler that bypasses any blocking
+            button.addEventListener(
+              "click",
+              function (e) {
+                e.stopPropagation();
+                console.log("Button clicked:", this.textContent.trim());
+              },
+              { capture: true }
+            );
+          });
+        };
+
+        // Run immediately and every second as a fallback
+        makeButtonsClickable();
+        setInterval(makeButtonsClickable, 1000);
+      });
+
+      // Show emergency panel with Alt+E
+      document.addEventListener("keydown", function (e) {
+        if (e.altKey && e.key === "e") {
+          const panel = document.getElementById("emergency-controls");
+          if (panel) {
+            panel.style.display =
+              panel.style.display === "none" ? "block" : "none";
+          }
+        }
+      });
+
+      // Button click helper that absolutely ensures buttons are clickable
+      document.addEventListener("DOMContentLoaded", function () {
+        // Run immediately
+        makeAllButtonsClickable();
+
+        // And periodically check for new buttons
+        setInterval(makeAllButtonsClickable, 1000);
+      });
+
+      function makeAllButtonsClickable() {
+        document.querySelectorAll("button").forEach(function (btn) {
+          // Ensure the button is clickable
+          btn.style.pointerEvents = "auto";
+          btn.style.cursor = "pointer";
+
+          // Add direct onclick if not present
+          if (!btn.onclick) {
+            btn.onclick = function (e) {
+              console.log(
+                "Button clicked via direct handler:",
+                this.textContent
+              );
+            };
+          }
+
+          // Remove disabled if it's a continue button that's been disabled too long
+          if (btn.classList.contains("continue-button") && btn.disabled) {
+            // Check if this button has been on screen for over 5 seconds
+            if (!btn.dataset.addedAt) {
+              btn.dataset.addedAt = Date.now().toString();
+            } else if (Date.now() - parseInt(btn.dataset.addedAt) > 5000) {
+              console.log("Re-enabling stuck continue button");
+              btn.disabled = false;
+            }
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

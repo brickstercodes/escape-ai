@@ -1,0 +1,90 @@
+.story-panel {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #111;
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(0, 128, 255, 0.2);
+  border: 1px solid #222;
+  text-align: center;
+}
+
+.story-content {
+  margin: 20px 0 40px;
+  line-height: 1.8;
+  font-size: 18px;
+  color: #e0e0e0;
+  text-align: left;
+}
+
+.story-content.intro {
+  border-color: #43a047;
+}
+
+.story-content.outro {
+  border-color: #ff5722;
+}
+
+.story-content h2 {
+  color: #4fc3f7;
+  margin-top: 0;
+  text-shadow: 0 0 5px rgba(79, 195, 247, 0.5);
+}
+
+.continue-button {
+  padding: 15px 30px;
+  font-size: 18px;
+  background: linear-gradient(135deg, #0070f3, #00a2ff);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer !important;
+  transition: all 0.3s;
+  margin: 20px auto;
+  display: block;
+  transform: translateZ(0);
+  pointer-events: auto !important;
+  opacity: 1 !important;
+}
+
+.continue-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 14px rgba(0, 114, 245, 0.3);
+  background: linear-gradient(135deg, #0063d1, #0090e8);
+}
+
+.continue-button:active {
+  transform: translateY(1px);
+}
+
+.continue-button:disabled {
+  background: #333;
+  cursor: not-allowed !important;
+  box-shadow: none;
+  opacity: 0.7 !important;
+}
+
+.button-status {
+  margin-top: 10px;
+  color: #888;
+  font-style: italic;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+/* Ensure animations are smooth */
+* {
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}

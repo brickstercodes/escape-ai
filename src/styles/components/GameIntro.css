@@ -1,0 +1,42 @@
+.game-intro {
+  text-align: center;
+  max-width: 700px;
+  margin: 50px auto;
+  padding: 40px 30px;
+  background-color: #111;
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(0, 128, 255, 0.2);
+  border: 1px solid #222;
+}
+
+.game-logo {
+  margin-bottom: 30px;
+}
+
+.logo-subtitle {
+  font-size: 16px;
+  color: #4fc3f7;
+  letter-spacing: 2px;
+  margin-top: -10px;
+}
+
+.alert-message {
+  background: #1c1c1c;
+  border: 1px solid #333;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.alert-header {
+  position: absolute;
+  top: -12px;
+  left: 20px;
+  background: #f85149;
+  color: black;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 14px;
+}
