@@ -138,7 +138,7 @@ export const levels: Level[] = [
         validateWith: 'ai',
         aiConfig: {
           provider: 'gemini',
-          model: 'gemini-2.0-flash',
+          model: 'gemini-2.0-flash-lite',
           temperature: 0.3
         }
       }
@@ -211,7 +211,7 @@ export const levels: Level[] = [
         validateWith: 'ai',
         aiConfig: {
           provider: 'gemini',
-          model: 'gemini-2.0-flash',
+          model: 'gemini-2.0-flash-lite',
           temperature: 0.3
         }
       }
@@ -238,7 +238,7 @@ export const levels: Level[] = [
         validateWith: 'ai',
         aiConfig: {
           provider: 'gemini',
-          model: 'gemini-2.0-flash',
+          model: 'gemini-2.0-flash-lite',
           temperature: 0.3
         }
       }
@@ -266,7 +266,7 @@ export const levels: Level[] = [
         validateWith: 'ai',
         aiConfig: {
           provider: 'gemini',
-          model: 'gemini-2.0-flash',
+          model: 'gemini-2.0-flash-lite',
           temperature: 0.7
         },
         creativeConfig: {
@@ -299,7 +299,7 @@ export const levels: Level[] = [
         validateWith: 'ai',
         aiConfig: {
           provider: 'gemini',
-          model: 'gemini-2.0-flash',
+          model: 'gemini-2.0-flash-lite',
           temperature: 0.7
         },
         creativeConfig: {
