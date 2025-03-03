@@ -79,8 +79,7 @@ export default function Game() {
         setGameState(prev => ({
           ...prev,
           currentLevelId: importedLevels[newIndex].id,
-          currentPuzzleIndex: 0,
-          completedPuzzles: []
+          currentPuzzleIndex: 0
         }));
         
         // Show story intro for new level if available
@@ -113,6 +112,12 @@ export default function Game() {
     console.log("Puzzle solved:", puzzle.id, "Current level:", currentLevelIndex);
 
     setGameState(prev => {
+      // Check if puzzle was already marked as complete to prevent double transitions
+      if (prev.completedPuzzles.includes(puzzle.id)) {
+        console.log("Puzzle already completed, skipping");
+        return prev;
+      }
+      
       const newState = {
         ...prev,
         completedPuzzles: [...prev.completedPuzzles, puzzle.id],
@@ -140,7 +145,6 @@ export default function Game() {
         console.log("More puzzles remaining in current level");
       }
       
-      console.log("Current completed puzzles:", prev.completedPuzzles);
       console.log("Completed puzzles before update:", prev.completedPuzzles);
       console.log("Current puzzle index before update:", prev.currentPuzzleIndex);
       console.log("Completed puzzles after update:", newState.completedPuzzles);
@@ -148,9 +152,6 @@ export default function Game() {
       
       return newState;
     });
-
-    // Call advanceToNextLevel immediately after solving a puzzle
-    advanceToNextLevel();
   }, [currentLevel, advanceToNextLevel, setScreenWithTimeout, currentLevelIndex]);
 
   const handleHintRequest = useCallback((puzzleId: string) => {
@@ -193,12 +194,7 @@ export default function Game() {
 
   const restartGame = useCallback(() => {
     // Clean up any potential lingering animations or timeouts
-    const highestId = window.setTimeout(() => {
-        // This function is intentionally left empty
-    }, 0);
-    for (let i = highestId; i >= 0; i--) {
-      window.clearTimeout(i);
-    }
+    const highestId = window.setTimeout(() => {}, 0);
     for (let i = highestId; i >= 0; i--) {
       window.clearTimeout(i);
     }
@@ -210,17 +206,6 @@ export default function Game() {
       setCurrentScreen('intro');
     }
   }, []);
-
-  useEffect(() => {
-    if (currentScreen === 'story-outro') {
-      const timer = setTimeout(() => {
-        advanceToNextLevel();
-      }, 15000); // Force advance after 15 seconds
-
-      // Cleanup the timer on component unmount
-      return () => clearTimeout(timer);
-    }
-  }, [currentScreen, advanceToNextLevel]);
 
   // Render appropriate screen based on game state
   if (currentScreen === 'intro') {
@@ -287,28 +272,6 @@ export default function Game() {
         onUseHint={() => handleHintRequest(currentPuzzle.id)}
         hintsUsed={gameState.hintsUsed[currentPuzzle.id] || 0}
       />
-
-      <button 
-        onClick={startGame}
-        className="start-button"
-      >
-        Start Game
-      </button>
-
-      {currentScreen === 'story-outro' && currentLevel?.storyOutro && (
-        <div className="story-outro-timeout">
-          {/* Add a timeout to force the game to advance after 15 seconds */}
-        </div>
-      )}
-
-      <button 
-        onClick={advanceToNextLevel} 
-        className="force-next-level-button" 
-        style={{ position: 'absolute', top: '10px', right: '10px' }}
-      >
-        Force Next Level
-      </button>
-
     </div>
   );
 }
