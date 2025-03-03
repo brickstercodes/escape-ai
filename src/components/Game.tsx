@@ -113,10 +113,7 @@ export default function Game() {
 
     setGameState(prev => {
       // Check if puzzle was already marked as complete to prevent double transitions
-      if (prev.completedPuzzles.includes(puzzle.id)) {
-        console.log("Puzzle already completed, skipping");
-        return prev;
-      }
+      
       
       const newState = {
         ...prev,
