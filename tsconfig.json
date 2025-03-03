@@ -7,7 +7,7 @@
       "esnext"
     ],
     "allowJs": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false, // Changed to false to enable type checking for libraries
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -21,6 +21,7 @@
     "jsx": "preserve"
   },
   "include": [
-    "src"
+    "src",
+    "node_modules/@types/body-parser" // Added to include type definitions for body-parser
   ]
 }
