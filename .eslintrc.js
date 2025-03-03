@@ -9,5 +9,8 @@ module.exports = {
   rules: {
     // Disable rules that might cause issues with newer TypeScript versions
     "@typescript-eslint/no-explicit-any": "off",
+
+    // Disable the empty function rule
+    "@typescript-eslint/no-empty-function": "off",
   },
 };
