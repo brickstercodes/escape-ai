@@ -122,8 +122,9 @@ function getRandomItem<T>(items: T[]): T {
   return items[Math.floor(Math.random() * items.length)];
 }
 
-// Create the levels with randomly selected puzzles
+// Reorder the levels array to have only 5 levels with creative level at the end
 export const levels: Level[] = [
+  // Level 1: Control Room
   {
     id: 'spaceship-escape-1',
     name: 'Spaceship Control Room',
@@ -145,7 +146,7 @@ export const levels: Level[] = [
     ]
   },
   
-  // Our new second level - power coupling alignment with timing puzzle
+  // Level 2: Power System Repair
   {
     id: 'spaceship-escape-repair',
     name: 'Power System Repair',
@@ -167,7 +168,7 @@ export const levels: Level[] = [
     ]
   },
   
-  // Original second level - now becomes third level
+  // Level 3: Engineering Sector
   {
     id: 'spaceship-escape-2',
     name: 'Engineering Sector',
@@ -183,6 +184,8 @@ export const levels: Level[] = [
       }
     ]
   },
+  
+  // Level 4: Science Lab
   {
     id: 'spaceship-escape-3',
     name: 'Science Laboratory',
@@ -197,15 +200,17 @@ export const levels: Level[] = [
       }
     ]
   },
+
+  // Add Level 5: Sequence Puzzle
   {
-    id: 'spaceship-escape-final',
-    name: 'Escape Pod Bay',
-    description: 'Josh has reached the escape pod bay and must launch the last remaining pod before the creature catches up to him.',
-    storyIntro: 'Josh bursts into the escape pod bay, the door slamming shut behind him. He quickly engages the emergency lock, but the metal dents inward as something powerful slams against it from the other side. There\'s only one escape pod left, its systems already in pre-launch sequence. To complete the launch, Josh needs to solve one final security measure - clearly designed to prevent the ship\'s non-human inhabitants from escaping.',
-    storyOutro: 'The escape pod detaches from the derelict ship with a violent jolt, just as the bay door gives way. Josh catches a final glimpse of a nightmarish form lunging toward the viewport before the thrusters engage, propelling him safely into space. As the abandoned ship recedes in the distance, Josh activates the emergency beacon. He\'s survived, but the questions remain: What happened to the crew? What were those creatures? And why was he sent to investigate without being told the true nature of his mission?',
+    id: 'spaceship-escape-sequence',
+    name: 'Escape Pod Security',
+    description: 'Josh must solve the escape pod\'s security sequence to gain access to the launch controls.',
+    storyIntro: 'Having made it through the science lab, Josh reaches the escape pod access corridor. The pod\'s security system activates, requiring one final verification. "Human presence detected," announces the computer. "To prevent non-human entities from accessing escape vehicles, please complete the following sequence verification."',
+    storyOutro: 'The escape pod\'s security system chimes with approval. "Human intelligence confirmed. Escape pod access granted." But just as Josh reaches for the pod\'s hatch controls, an inhuman screech echoes through the corridor. The creature has found him.',
     puzzles: [
       {
-        id: 'puzzle-penultimate',
+        id: 'puzzle-sequence',
         type: 'text',
         ...getRandomItem(sequencePuzzles),
         validateWith: 'ai',
@@ -217,47 +222,20 @@ export const levels: Level[] = [
       }
     ]
   },
-  {
-    id: 'spaceship-escape-launch',
-    name: 'Launch Sequence Activation',
-    description: 'Josh needs to activate the escape pod\'s launch sequence by solving a complex pattern recognition puzzle.',
-    storyIntro: 'The escape pod is ready, but the launch systems are locked behind a sophisticated pattern recognition system. "This must be another security measure," Josh mutters, studying the interface. The screen displays a complex arrangement of geometric shapes and colors. A message blinks: "Complete pattern sequence to initiate launch." Josh knows he needs to figure out the pattern logic quickly - the sounds of the creature trying to break through the door are getting louder.',
-    storyOutro: 'As Josh completes the pattern, the escape pod\'s engines roar to life. "Launch sequence initiated," announces the ship\'s computer in a calm voice that contrasts sharply with Josh\'s racing heartbeat. The pod\'s hatch seals with a pneumatic hiss, and countdown numbers flash on screen. Through the viewport, Josh can see the creature finally break through the door, its alien form more terrifying than anything he could have imagined. But it\'s too late for the creature - the pod blasts free from the derelict ship, thrusters propelling Josh to safety as the abandoned vessel grows smaller in the distance.',
-    puzzles: [
-      {
-        id: 'pattern-puzzle',
-        type: 'pattern',
-        question: 'Complete the security pattern to bypass the firewall.',
-        answer: 'pattern', // Placeholder answer, actual evaluation will be done in the mini-game
-        hints: ['Follow the sequence of symbols carefully.']
-      },
-      {
-        id: 'puzzle-penultimate',
-        type: 'text',
-        ...getRandomItem(sequencePuzzles),
-        validateWith: 'ai',
-        aiConfig: {
-          provider: 'gemini',
-          model: 'gemini-2.0-flash-lite',
-          temperature: 0.3
-        }
-      }
-    ]
-  },
-  
-  // Add our horror final confrontation level
+
+  // Level 6: Final Creative Encounter
   {
     id: 'spaceship-escape-confrontation',
     name: 'Final Confrontation',
     description: 'The creature has caught up with Josh. He must fight for his life using whatever he can find.',
-    
-    storyOutro: 'Josh collapses against the wall, breathing heavily, his hands still trembling. The creature lies motionless on the floor, dark fluid pooling beneath its twisted form. The improvised strategy worked. Josh cautiously steps over the creature\'s body, making his way toward the escape pod\'s entry hatch. He can\'t help but glance back at the thing that nearly killed him. In death, its face looks almost... human. Josh shudders and turns away, activating the escape pod\'s launch sequence. As the hatch seals and the engines ignite, he allows himself to believe, for the first time, that he might actually survive this nightmare.',
+    storyIntro: 'Josh\'s heart pounds as he realizes he\'s reached a dead end. The maintenance alcove offers some shelter, but the sounds of the creature getting closer echo through the corridor. He frantically scans the small space, noting various items that might help him survive. Time is running out - he needs a plan, and he needs it now.',
+    storyOutro: 'Josh\'s improvised strategy works! The creature lies defeated, and the path to the escape pod is clear. With trembling hands but renewed determination, Josh makes his way to the pod, seals himself inside, and initiates the launch sequence. As the pod blasts away from the derelict ship, he allows himself to finally breathe easily. He\'s survived, but the questions about what happened on this ship will haunt him for years to come.',
     puzzles: [
       {
-        id: 'puzzle-confrontation',
+        id: 'puzzle-final',
         type: 'creative',
         question: 'The creature is breaking through the door. Help Josh formulate a survival strategy using the items available in the maintenance alcove.',
-        answer: 'survival', // This is just a placeholder, actual evaluation will be done by AI
+        answer: 'survival',
         hints: [
           'Consider combining multiple items for maximum effect',
           'The creature seems sensitive to light and sound',
@@ -284,39 +262,6 @@ export const levels: Level[] = [
             'Medical kit with sedatives'
           ],
           scenario: 'The maintenance alcove is small and cramped. The creature—a grotesque hybrid of insectoid and humanoid features—is tearing through the reinforced door. Its multiple limbs work with terrible efficiency, and you can hear its raspy, hungry breathing. Each impact causes the lights to flicker, casting twisted shadows across the walls. Josh feels his pulse racing and a cold sweat forming on his brow. There\'s no way out except through that door, and the creature will be through in less than a minute.',
-          healthPoints: 100
-        }
-      },
-      {
-        id: 'creative-puzzle',
-        type: 'creative',
-        question: 'Help Josh formulate a survival strategy using the items available in the maintenance alcove.',
-        answer: 'survival', // Placeholder answer
-        hints: [
-          'Think about how to distract the creature',
-          'Combine items for maximum effect'
-        ],
-        validateWith: 'ai',
-        aiConfig: {
-          provider: 'gemini',
-          model: 'gemini-2.0-flash-lite',
-          temperature: 0.7
-        },
-        creativeConfig: {
-          availableItems: [
-            'Broken pipe wrench',
-            'Flickering emergency light',
-            'Pressurized oxygen tank',
-            'Frayed electrical cables',
-            'Chemical coolant canister',
-            'Hydraulic door piston',
-            'Maintenance terminal (powered down)',
-            'Fire suppression system (partially functional)',
-            'Rusty metal shelf',
-            'Duct tape',
-            'Medical kit with sedatives'
-          ],
-          scenario: 'The maintenance alcove is small and cramped. The creature is tearing through the reinforced door. Josh must think fast as the creature begins tearing through the door. He has seconds to act.',
           healthPoints: 100
         }
       }

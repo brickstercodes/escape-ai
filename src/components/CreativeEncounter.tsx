@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { CreativeEncounterConfig } from '../types/game';
+import { generateStrategyFeedback } from '../utils/ai';
 import '../styles/components/CreativeEncounter.css';
 
 interface CreativeEncounterProps {
@@ -28,7 +29,7 @@ export default function CreativeEncounter({
     'Coolant canister', 'Portable welding torch', 'Medical kit'
   ];
   
-  const handleSubmit = useCallback((e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     if (!strategy.trim() || isProcessing) return;
     
@@ -38,13 +39,28 @@ export default function CreativeEncounter({
     // Let the parent handle the validation with Gemini AI
     onSubmit(strategy);
     
-    // Show some immediate feedback about sending the plan to Josh
-    setFeedback("Transmitting your plan to Josh...");
+    // If strategy was incorrect, get AI feedback
+    if (isIncorrect) {
+      setFeedback("Analyzing strategy effectiveness...");
+      try {
+        const aiFeedback = await generateStrategyFeedback(strategy, {
+          provider: 'gemini',
+          model: 'gemini-1.0-pro',
+          temperature: 0.7
+        });
+        setFeedback(aiFeedback);
+      } catch (error) {
+        setFeedback("Consider revising your strategy to make better use of the available items.");
+      }
+    } else {
+      setFeedback("Transmitting your plan to Josh...");
+    }
+    
     setShowFeedback(true);
     
-    // If this was the first failure, reduce health
+    // If this was the first failure, reduce health less severely
     if (isIncorrect && attempts === 0) {
-      setHealth(prev => Math.max(prev - 50, 0));
+      setHealth(prev => Math.max(prev - 25, 0)); // Reduced from 50 to 25
     }
   }, [strategy, isProcessing, attempts, isIncorrect, onSubmit]);
   

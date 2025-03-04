@@ -69,7 +69,8 @@ export default function Game() {
     
     console.log('Advancing to next level. Current Level Index:', currentLevelIndex);
     
-    if (currentLevelIndex < importedLevels.length - 1) {
+    // Change condition to account for 6 levels (0-5)
+    if (currentLevelIndex < 5) {
       setCurrentLevelIndex(prevIndex => {
         const newIndex = prevIndex + 1;
         console.log("New level index:", newIndex);

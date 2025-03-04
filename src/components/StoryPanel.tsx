@@ -15,32 +15,59 @@ const StoryPanel: React.FC<StoryPanelProps> = ({
   isIntro, 
   onContinue 
 }) => {
+  // Updated titles to include sequence level
   const stories = [
-    'Welcome to Level 1: The Beginning!',
-    'Level 2: The Challenge Intensifies!',
-    'Level 3: The Journey Continues!',
-    'Level 4: The Midway Point!',
-    'Level 5: The Final Stretch!',
-    'Level 6: The Ultimate Test!',
-    'Level 7: The Grand Finale!'
+    'The Control Room: First Contact',
+    'Engineering Bay: Power Systems',
+    'Science Lab: Strange Discoveries',
+    'Maintenance: Life Support Systems',
+    'Escape Pod Security: Human Verification',
+    'Final Confrontation: Survival'
   ];
+
+  // Get appropriate header based on level and type
+  const getHeader = () => {
+    if (isIntro) {
+      return `Mission Log: ${stories[currentLevel]}`;
+    }
+    if (currentLevel === 5) { // Last level (creative encounter)
+      return 'Mission Accomplished';
+    }
+    return `Mission Update: Level ${currentLevel + 1} Complete`;
+  };
+
+  // Get appropriate button text
+  const getButtonText = () => {
+    if (currentLevel === 5) return 'Complete Mission';
+    if (isIntro) return 'Begin Mission';
+    return 'Continue';
+  };
 
   return (
     <div className="story-panel">
-      <h1>Story Panel</h1>
-      <p>{isIntro ? text : stories[currentLevel]}</p>
+      <h1>{getHeader()}</h1>
+      
+      <div className="story-content">
+        <p>{text}</p>
+      </div>
+      
       <div className="navigation">
-        <button 
-          onClick={() => onLevelChange(currentLevel - 1)} 
-          disabled={currentLevel === 0}
-        >
-          Previous
-        </button>
+        {/* Only show Previous button in development */}
+        {process.env.NODE_ENV === 'development' && (
+          <button 
+            onClick={() => onLevelChange(currentLevel - 1)} 
+            disabled={currentLevel === 0}
+          >
+            Previous
+          </button>
+        )}
+        
         <button 
           onClick={onContinue} 
-          disabled={currentLevel === stories.length - 1}
+          className="continue-button"
+          disabled={currentLevel >= stories.length}
         >
-          Next
+          {getButtonText()}
         </button>
       </div>
     </div>
